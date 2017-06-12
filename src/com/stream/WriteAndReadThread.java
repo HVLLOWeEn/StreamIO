@@ -1,26 +1,32 @@
 package com.stream;
-import java.io.*;
 /**
  * Created by romansynovets on 6/12/17.
  */
-public class WriteAndReadThread implements Runnable {
-    Thread thrd;
+public class WriteAndReadThread extends Thread {
     ReaderWriterFile rwFile;
     private String status;
+    private FileMode filemode;
 
-    public WriteAndReadThread(String name, ReaderWriterFile rwFile) {
-        thrd = new Thread(this, name);
+    public WriteAndReadThread(FileMode filemode, ReaderWriterFile rwFile) {
+        this.filemode = filemode;
         this.rwFile = rwFile;
-        thrd.start();
     }
     public void run() {
-        if(thrd.getName().compareTo("Read") == 0) {
-            for(int i = 0; i < 10; i++)rwFile.readWithFile(true);
-            rwFile.readWithFile(false);
-        }
-        else {
-            for(int i = 0; i < 10; i++) rwFile.writeInFile(true);
-            rwFile.writeInFile(false);
+        switch(filemode) {
+            case READ: {
+                do {
+                    rwFile.readWithFile(true);
+                } while(false);
+                rwFile.readWithFile(false);
+
+                break;
+            }
+            case WRITE: {
+                do {
+                    rwFile.writeInFile(true);
+                } while(false);
+                rwFile.writeInFile(false);
+            }
         }
     }
 }

@@ -19,9 +19,13 @@ public class ReaderWriterFile {
         try(BufferedReader buffRead =
                     new BufferedReader(new FileReader("FileRead.txt"))) {
             // Открываем файл для чтения
-
+            String currenLine;
             try {
-                dataWithFile = buffRead.readLine();
+                do {
+                    currenLine = buffRead.readLine();
+                    dataWithFile += currenLine;
+
+                } while(currenLine != null);
             } catch (IOException exc) {
                 System.out.println("Ошибка чтения из файла!");
             }
@@ -30,7 +34,7 @@ public class ReaderWriterFile {
             notify();                   // позволить выполнится методу writeInFile();
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(1000);
             } catch (InterruptedException exc) {
                 System.out.println("Прерывание потока!");
             }
